@@ -25,11 +25,11 @@ def is_work_time():
     now = datetime.now(KYIV)
     weekday = now.weekday() # 0 = Понеділок, 6 = Неділя
 
-    if weekday >= 5:
+    if weekday >= 7:
         return False # Вихідні дні
     
-    start = now.replace(hour=8, minute=0, second=0)
-    end = now.replace(hour=15, minute=40, second=0)
+    start = now.replace(hour=1, minute=0, second=0)
+    end = now.replace(hour=23, minute=59, second=0)
 
     return start <= now <= end
 
@@ -98,4 +98,5 @@ def check_alert():
 # Основний цикл
 while True:
     check_alert()
+
     time.sleep(30) # Перевірка кожні 30 секунд
