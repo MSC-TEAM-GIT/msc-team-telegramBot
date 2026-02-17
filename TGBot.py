@@ -71,11 +71,15 @@ def check_alert():
         "Authorization": API_KEY
     }
 
+    now_str = datetime.now(KYIV).strftime("%H:%M:%S")
+    print(f"[{now_str}] Виконується запит до API...")
+
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print("Помилка API:", response.status_code)
+        print(f"[{now_str}] Помилка API:", response.status_code)
         return
+
     
     data = response.json()
 
@@ -108,8 +112,3 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
-
-
-
-
-
