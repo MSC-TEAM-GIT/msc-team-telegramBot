@@ -25,7 +25,7 @@ def is_work_time():
     now = datetime.now(KYIV)
     weekday = now.weekday() # 0 = Понеділок, 6 = Неділя
 
-    if weekday >= 7:
+    if weekday >= 5:
         return False # Вихідні дні
     
     start = now.replace(hour=1, minute=0, second=0)
@@ -108,3 +108,4 @@ if not API_KEY:
     print("❌ ПОМИЛКА: API_KEY не знайдено в змінних оточення!")
 else:
     print(f"✅ Ключі завантажені (Ключ API починається на: {API_KEY[:5]}...)")
+
