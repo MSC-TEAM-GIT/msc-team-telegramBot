@@ -63,19 +63,22 @@ def check_alert():
         "Authorization": f"Bearer {API_KEY}"
     }
 
-    response = requests.get(url, headers=headers)
+    try:
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 401:
+            print("❌ Помилка 401: Невірний API-ключ!")
+            return
+        
+        if response.status_code != 200:
+            print(f"Помилка API: {response.status_code}")
+            return
+        
+        data = response.json()
 
-    if response.status_code != 200:
-        print("Помилка API:", response.status_code)
-        return
-    
-    data = response.json()
-
-    if not data:
-        return
-    
-    region = data[0]
-    current_alert = bool(region["activeAlerts"])
+        # Якщо масив не порожній — є активні тривоги
+        # Згідно з документацією v3, якщо тривог немає, приходить []
+        current_alert = len(data) > 0
 
     # Початок тривоги
     if current_alert and not previous_alert:
@@ -103,6 +106,7 @@ while True:
 
 
 print("API_KEY value:", API_KEY)
+
 
 
 
