@@ -6,6 +6,14 @@ import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 
+print("--- БОТ ЗАПУСКАЄТЬСЯ ---")
+if not BOT_TOKEN:
+    print("❌ ПОМИЛКА: BOT_TOKEN не знайдено в змінних оточення!")
+if not API_KEY:
+    print("❌ ПОМИЛКА: API_KEY не знайдено в змінних оточення!")
+else:
+    print(f"✅ Ключі завантажені (Ключ API починається на: {API_KEY[:5]}...)")
+
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 API_KEY = os.getenv("API_KEY")
 REGION_ID = "327"
@@ -100,12 +108,3 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
-
-print("--- БОТ ЗАПУСКАЄТЬСЯ ---")
-if not BOT_TOKEN:
-    print("❌ ПОМИЛКА: BOT_TOKEN не знайдено в змінних оточення!")
-if not API_KEY:
-    print("❌ ПОМИЛКА: API_KEY не знайдено в змінних оточення!")
-else:
-    print(f"✅ Ключі завантажені (Ключ API починається на: {API_KEY[:5]}...)")
-
