@@ -10,9 +10,9 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 API_KEY = os.getenv("API_KEY", "").strip()
 REGION_ID = "327"
 CHATS = [
-    {"CHAT_ID": "-1003798710531", "site_link": "https://msc-team-10a-class.netlify.app/"},
-    {"CHAT_ID": "-1003785488166", "site_link": "https://msc-team-10b-class.netlify.app/"},
-    {"CHAT_ID": "-1003598215535", "site_link": "https://msc-team-10v-class.netlify.app/"}
+    {"CHAT_ID": "-1003798710531", "SITE_LINK": "https://msc-team-10a-class.netlify.app/"},
+    {"CHAT_ID": "-1003785488166", "SITE_LINK": "https://msc-team-10b-class.netlify.app/"},
+    {"CHAT_ID": "-1003598215535", "SITE_LINK": "https://msc-team-10v-class.netlify.app/"}
 ]
 ALERT_MAP_LINK = "https://map.ukrainealarm.com/"
 KYIV = pytz.timezone("Europe/Kyiv")
@@ -36,16 +36,16 @@ def is_work_time():
     if weekday >= 5:
         return False # Вихідні дні
     
-    start = now.replace(hour=1, minute=0, second=0)
-    end = now.replace(hour=23, minute=59, second=0)
+    start = now.replace(hour=8, minute=0, second=0)
+    end = now.replace(hour=15, minute=40, second=0)
 
     return start <= now <= end
 
 # Створення клавіатури для каналу
 def build_inline_keyboard(site_link):
     keyboard = InlineKeyboardMarkup()
-    keyboard.add(InlineKeyboardButton("🗺️ Мапа повітряних тривог", url=ALERT_MAP_LINK))
-    keyboard.add(InlineKeyboardButton("🌐 Перейти на сайт класу", url=site_link))
+    keyboard.add(InlineKeyboardButton("🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK, style="danger"))
+    keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
     return keyboard
 
 # Відправка повідомлення у всі канали
@@ -94,14 +94,14 @@ def check_alert():
         if is_work_time():
             started_in_work_time = True
             send_telegram_message(
-                "🚨 Увага! У м. Самар розпочалася повітряна тривога! Тестування бота!"
+                "🔴 <b>Увага! Оголошено повітряну тривогу! Негайно пройдіть в найближче укриття!</b> 🔴"
             )
 
     # ✅ Відбій тривоги
     if not current_alert and previous_alert:
         if started_in_work_time:
             send_telegram_message(
-                "✅ Увага! У м. Самар відбій повітряної тривоги! Тестування бота!"
+                "🟢 <b> Увага! Відбій повітряної тривоги!</b> 🟢"
             )
             started_in_work_time = False
 
@@ -112,3 +112,4 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
+
