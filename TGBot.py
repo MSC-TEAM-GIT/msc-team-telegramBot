@@ -68,7 +68,7 @@ def check_alert():
     url = f"https://api.ukrainealarm.com/api/v3/alerts/{REGION_ID}"
     headers = {
         "accept": "application/json",
-        "Authorization": API_KEY
+        "Authorization": f"Bearer {API_KEY}"
     }
 
     response = requests.get(url, headers=headers)
@@ -108,6 +108,7 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
+
 
 
 
