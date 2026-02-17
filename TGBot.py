@@ -6,7 +6,7 @@ import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 API_KEY = os.getenv("API_KEY", "").strip()
 REGION_ID = "327"
 CHATS = [
@@ -108,5 +108,6 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
+
 
 
