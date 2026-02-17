@@ -7,7 +7,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-API_KEY = os.getenv("API_KEY")
+API_KEY = os.getenv("API_KEY", "").strip()
 REGION_ID = "327"
 CHATS = [
     {"CHAT_ID": "-1003798710531", "site_link": "https://msc-team-10a-class.netlify.app/"},
@@ -108,4 +108,5 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
+
 
