@@ -101,3 +101,9 @@ while True:
 
     time.sleep(30) # Перевірка кожні 30 секунд
 
+print("API_KEY:", API_KEY)
+print("Headers:", headers)
+print("Response text:", response.text)
+
+
+
