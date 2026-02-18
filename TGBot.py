@@ -42,7 +42,7 @@ def is_work_time():
     return start <= now <= end
 
 # Створення клавіатури для каналу
-def build_inline_keyboard(site_link):
+def build_inline_keyboard(SITE_LINK):
     keyboard = InlineKeyboardMarkup()
     keyboard.add(InlineKeyboardButton("🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK, style="danger"))
     keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
@@ -51,7 +51,7 @@ def build_inline_keyboard(site_link):
 # Відправка повідомлення у всі канали
 def send_telegram_message(text):
     for channel in CHATS:
-        keyboard = build_inline_keyboard(channel["site_link"])
+        keyboard = build_inline_keyboard(channel["SITE_LINK"])
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         payload = {
             "chat_id": channel["CHAT_ID"],
@@ -112,4 +112,5 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
+
 
