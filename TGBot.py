@@ -42,16 +42,20 @@ def is_work_time():
     return start <= now <= end
 
 # Створення клавіатури для каналу
-def build_inline_keyboard(SITE_LINK):
+def build_inline_keyboard(SITE_LINK, is_clear=False):
     keyboard = InlineKeyboardMarkup()
-    keyboard.add(InlineKeyboardButton("🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK, style="danger"))
-    keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
+
+    if is_clear:
+        keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
+    else:
+        keyboard.add(InlineKeyboardButton("🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK, style="danger"))
+        keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
     return keyboard
 
 # Відправка повідомлення у всі канали
-def send_telegram_message(text):
+def send_telegram_message(text, is_clear=False):
     for channel in CHATS:
-        keyboard = build_inline_keyboard(channel["SITE_LINK"])
+        keyboard = build_inline_keyboard(channel["SITE_LINK"], is_clear=is_clear)
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         payload = {
             "chat_id": channel["CHAT_ID"],
@@ -100,9 +104,7 @@ def check_alert():
     # ✅ Відбій тривоги
     if not current_alert and previous_alert:
         if started_in_work_time:
-            send_telegram_message(
-                "🟢 <b> Увага! Відбій повітряної тривоги!</b> 🟢"
-            )
+            send_telegram_message("🟢 <b> Увага! Відбій повітряної тривоги!</b> 🟢", is_clear=True)
             started_in_work_time = False
 
     previous_alert = current_alert
@@ -112,5 +114,3 @@ while True:
     check_alert()
 
     time.sleep(30) # Перевірка кожні 30 секунд
-
-
