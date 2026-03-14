@@ -48,7 +48,7 @@ def build_inline_keyboard(SITE_LINK, is_clear=False):
     if is_clear:
         keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
     else:
-        keyboard.add(InlineKeyboardButton("🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK, style="danger"))
+        keyboard.add(InlineKeyboardButton("🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK), style="danger")
         keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
     return keyboard
 
