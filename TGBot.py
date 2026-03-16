@@ -46,10 +46,13 @@ def build_inline_keyboard(SITE_LINK, is_clear=False):
     keyboard = InlineKeyboardMarkup()
 
     if is_clear:
-        keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
+        btn_site = InlineKeyboardButton(text="🔗 Посилання на сайт", url=SITE_LINK)
+        keyboard.add(btn_site)
     else:
-        keyboard.add(InlineKeyboardButton("🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK), style="danger")
-        keyboard.add(InlineKeyboardButton("🔗 Посилання на сайт", url=SITE_LINK))
+        btn_map = InlineKeyboardButton(text="🚀 Мапа повітряних тривог", url=ALERT_MAP_LINK, style="danger")
+        btn_site = InlineKeyboardButton(text="🔗 Посилання на сайт", url=SITE_LINK)
+        keyboard.add(btn_map)
+        keyboard.add(btn_site)
     return keyboard
 
 # Відправка повідомлення у всі канали
