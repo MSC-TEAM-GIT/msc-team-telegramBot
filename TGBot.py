@@ -1,11 +1,8 @@
 import requests
 from datetime import datetime
 import pytz
-import threading
-import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-
+from js import Response
 
 REGION_ID = "327"
 CHATS = [
@@ -15,14 +12,6 @@ CHATS = [
 ]
 ALERT_MAP_LINK = "https://map.ukrainealarm.com/"
 KYIV = pytz.timezone("Europe/Kyiv")
-
-print("--- БОТ ЗАПУСКАЄТЬСЯ ---")
-if not BOT_TOKEN:
-    print("❌ ПОМИЛКА: BOT_TOKEN не знайдено в змінних оточення!")
-if not API_KEY:
-    print("❌ ПОМИЛКА: API_KEY не знайдено в змінних оточення!")
-else:
-    print(f"✅ Ключі завантажені (Ключ API починається на: {API_KEY[:5]}...)")
 
 previous_alert = False
 started_in_work_time = False
@@ -36,7 +25,7 @@ def is_work_time():
         return False # Вихідні дні
     
     start = now.replace(hour=8, minute=0, second=0)
-    end = now.replace(hour=15, minute=40, second=0)
+    end = now.replace(hour=23, minute=40, second=0)
 
     return start <= now <= end
 
@@ -55,7 +44,7 @@ def build_inline_keyboard(SITE_LINK, is_clear=False):
     return keyboard
 
 # Відправка повідомлення у всі канали
-def send_telegram_message(text, is_clear=False):
+def send_telegram_message(text, BOT_TOKEN, is_clear=False):
     for channel in CHATS:
         keyboard = build_inline_keyboard(channel["SITE_LINK"], is_clear=is_clear)
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -68,8 +57,11 @@ def send_telegram_message(text, is_clear=False):
         requests.post(telegram_url, json=payload)
 
 # Перевірка тривог
-def check_alert():
+def check_alert(env):
     global previous_alert, started_in_work_time
+
+    BOT_TOKEN = env.BOT_TOKEN
+    API_KEY = env.API_KEY
 
     url = f"https://api.ukrainealarm.com/api/v3/alerts/{REGION_ID}"
     headers = {
@@ -78,17 +70,12 @@ def check_alert():
     }
 
     now_str = datetime.now(KYIV).strftime("%H:%M:%S")
-    print(f"[{now_str}] Виконується запит до API...")
-
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print(f"[{now_str}] Помилка API:", response.status_code)
         return
-
-    
+        
     data = response.json()
-
     if not data:
         return
     
@@ -100,19 +87,18 @@ def check_alert():
         if is_work_time():
             started_in_work_time = True
             send_telegram_message(
-                "🔴 <b>Увага! Оголошено повітряну тривогу! Негайно пройдіть в найближче укриття!</b> 🔴"
+                "🔴 <b>Увага! Оголошено повітряну тривогу! Негайно пройдіть в найближче укриття!</b> 🔴",
+                BOT_TOKEN
             )
 
     # ✅ Відбій тривоги
     if not current_alert and previous_alert:
         if started_in_work_time:
-            send_telegram_message("🟢 <b> Увага! Відбій повітряної тривоги!</b> 🟢", is_clear=True)
+            send_telegram_message("🟢 <b> Увага! Відбій повітряної тривоги!</b> 🟢", BOT_TOKEN, is_clear=True)
             started_in_work_time = False
 
     previous_alert = current_alert
 
-# Основний цикл
-while True:
-    check_alert()
-
-    time.sleep(30) # Перевірка кожні 30 секунд
+async def on_fetch(request, env):
+    check_alert(env)
+    return Response.new("Перевірка тривоги виконана успішно")
