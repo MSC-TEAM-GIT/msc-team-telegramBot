@@ -6,8 +6,7 @@ import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
-API_KEY = os.getenv("API_KEY", "").strip()
+
 REGION_ID = "327"
 CHATS = [
     {"CHAT_ID": "-1003798710531", "SITE_LINK": "https://msc-team-10a-class.netlify.app/"},
