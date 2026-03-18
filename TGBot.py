@@ -4,7 +4,7 @@ import pytz
 import threading
 import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-import os
+
 
 
 REGION_ID = "327"
