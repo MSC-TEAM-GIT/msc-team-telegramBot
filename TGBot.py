@@ -10,9 +10,9 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 API_KEY = os.getenv("API_KEY", "").strip()
 REGION_ID = "327"
 CHATS = [
-    {"CHAT_ID": "-1002642409946", "SITE_LINK": "https://msc-team-10a-class.netlify.app/"},
-    {"CHAT_ID": "-1002101902414", "SITE_LINK": "https://msc-team-10b-class.netlify.app/"},
-    {"CHAT_ID": "-1002744754617", "SITE_LINK": "https://msc-team-10v-class.netlify.app/"}
+    {"CHAT_ID": "-1002642409946", "SITE_LINK": "https://msc-team-11a-class.pages.dev/"},
+    {"CHAT_ID": "-1002101902414", "SITE_LINK": "https://msc-team-11b-class.pages.dev/"},
+    {"CHAT_ID": "-1002744754617", "SITE_LINK": "https://msc-team-11v-class.pages.dev/"}
 ]
 ALERT_MAP_LINK = "https://map.ukrainealarm.com/"
 KYIV = pytz.timezone("Europe/Kyiv")
