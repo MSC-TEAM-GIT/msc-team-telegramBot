@@ -4,7 +4,7 @@ import pytz
 import threading
 import time
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-import os
+import os;
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 API_KEY = os.getenv("API_KEY", "").strip()
